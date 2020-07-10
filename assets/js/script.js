@@ -5,8 +5,6 @@ var span = document.getElementsByClassName("close")[0];
 var modal = document.getElementById('myModal');
 
 
-
-
 var getCityHandler = function(event) {
     event.preventDefault();
     var cityName = citySearchEl.value.trim();
@@ -44,7 +42,7 @@ function getHikingInfo(lat, lon) {
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data.trails)
+                console.log("trails", data.trails)
                 displayTrails(data, data.trails)
             });
         } else {
@@ -89,12 +87,25 @@ function displayTrails(data, trails) {
         hikeLocation.textContent = trails[i].location;
         callout.appendChild(hikeLocation);
 
-         //button that opens modal
+        // //trail difficulty data
+        var difficulty = document.getElementById("difficulty");
+        var difficultyData = document.createElement("span");
+        difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
+        difficulty.appendChild(difficultyData);
+
+        // //trail length data
+        // var length = document.getElementById("length");
+        // var lengthData = document.createElement("span");
+        // lengthData.textContent = "Length: " + trails[i].length;
+        // length.appendChild(lengthData);
+
+        //button that opens modal
         var modalButton = document.createElement("button");
         modalButton.textContent = "See trial details";
         modalButton.classList.add("modalBtn");
         modalButton.id = "myBtn";
         callout.appendChild(modalButton);
+        
 
         // when the user clicks on the button, open modal
         modalButton.onclick = function() {
@@ -112,6 +123,7 @@ function displayTrails(data, trails) {
                 modal.style.display = "none";
             }
         }
+
 
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
