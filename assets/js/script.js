@@ -1,6 +1,50 @@
-var cardDisplayEl = document.getElementById("cards");
-var searchBtnEl = document.getElementById("search-button");
-var citySearchEl = document.getElementById("search-term");
+var searchFormEl = document.querySelector("#search-form");
+var searchInputEl = document.querySelector("#searchTxtInput");
+var historyContainerEl = document.querySelector("#searchDatalist");
+
+//create history dropdown elements in hike search field
+var createHistoryDropdown = function(){
+    //console.log("createHistoryDropdown");
+    historyContainerEl.innerHTML = "";
+    var searchHistoryArr = JSON.parse(localStorage.getItem("searchHistoryArr"));
+    if (searchHistoryArr != null){
+        searchHistoryArr = searchHistoryArr.sort();
+        //console.log(searchHistoryArr);
+        for (var i=0;i<searchHistoryArr.length;i++){
+            //console.log(searchHistoryArr[i]);
+            var historyListItem = document.createElement("option");
+            historyListItem.value = searchHistoryArr[i];
+            historyListItem.text = searchHistoryArr[i];
+            historyContainerEl.appendChild(historyListItem);
+        }
+
+    }
+
+}
+
+//store search in localStorage
+var storeSearchHistory = function(searchValue){
+    //console.log(searchValue);
+    
+    //strip search value of leading/trailing spaces and lowercase
+    var cleanedSearchValue = searchValue.toLowerCase().trim();
+    var searchHistoryArr = JSON.parse(localStorage.getItem("searchHistoryArr"));
+
+    //console.log(searchHistoryArr);
+
+    //if localstorage var doesn't exist
+    if (searchHistoryArr === null){
+        searchHistoryArr = [];
+    }
+
+    //avoids duplicates - if searched value does not already exist in localStorage array, add it
+    if (searchHistoryArr.indexOf(cleanedSearchValue) < 0){
+        searchHistoryArr.push(cleanedSearchValue);
+        localStorage.setItem("searchHistoryArr", JSON.stringify(searchHistoryArr));
+    }
+
+}
+
 
 
 var getCityHandler = function(event) {
@@ -91,5 +135,23 @@ function displayTrails(data, trails) {
     
 }
 
-//event listeners
-searchBtnEl.addEventListener("click", getCityHandler);
+var formSubmitHandler = function(event){
+    event.preventDefault();
+
+    //console.log(event);
+
+    // get value from input element
+    var searchValue = searchInputEl.value.trim();
+    
+    //console.log(cityname);
+
+    if (searchValue) {
+        storeSearchHistory(searchValue);
+        searchInputEl.value = "";
+    } else {
+        //TODO : VALIDATION MODAL TO GO HERE TO STATE THAT USER NEEDS TO ENTER A VALID DESTINATION (NOT BLANK)
+    }
+}
+
+searchFormEl.addEventListener("submit", formSubmitHandler);
+searchInputEl.addEventListener("focus", createHistoryDropdown);
