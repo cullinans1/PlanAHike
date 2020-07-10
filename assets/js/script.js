@@ -31,9 +31,9 @@ function getHikingInfo(lat, lon) {
                 //displayTrails(data)
             });
         } else {
-            alert("Error: " + response.statusText);
+            
         }
-    })
+    });
 }
 
 function displayTrails(trails) {
