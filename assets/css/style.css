@@ -419,16 +419,14 @@ button {
 
 /* yosemite falls in search area div */
 .backgroundimg {
-    background-image: url(../../assets/images/panorama.jpg);
-    background-size: cover;
-    background-size: contain;
-    background-repeat: no-repeat;
+  background: url(../../assets/images/panorama.jpg) 50% 50% no-repeat;
+  /* background-repeat: no-repeat; */
 }
 
 .row {
-  max-width: 75rem;
-  margin-left: auto;
-  margin-right: auto; }
+max-width: 75rem;
+margin-left: auto;
+margin-right: auto; }
   .row::before, .row::after {
     content: ' ';
     display: table; }
