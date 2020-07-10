@@ -47,20 +47,30 @@ var storeSearchHistory = function(searchValue){
 
 
 
+var getCityHandler = function(event) {
+    event.preventDefault();
+    var cityName = citySearchEl.value.trim();
+    if (cityName) {
+        getCityCoord(cityName);
+        citySearchEl.value= "";
+    } else {
+        return;
+    }
+}
 function getCityCoord(city, state) {
+    
     fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
     .then(function(response){
-    if (response.ok) {
-        response.json().then(function(data) {
-        getHikingInfo(data.coord.lat, data.coord.lon);
-        forecastWeather(data.coord.lat, data.coord.lon);
-        });
-    } else {
-        
-    }
-});
-}
-getCityCoord("tucson, arizona");
+        if (response.ok) {
+            response.json().then(function(data) {
+            getHikingInfo(data.coord.lat, data.coord.lon);
+            forecastWeather(data.coord.lat, data.coord.lon);
+            });
+        } else {
+            
+        }
+    });
+};
 function forecastWeather(lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
     .then(function(response) {
@@ -70,20 +80,58 @@ function forecastWeather(lat, lon) {
     })
 }
 function getHikingInfo(lat, lon) {
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&key=200829481-354572aba0151d42b45ec3c006e7cbef")
+    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
                 console.log(data.trails)
-                //displayTrails(data)
+                displayTrails(data, data.trails)
             });
         } else {
-            alert("Error: " + response.statusText);
+            
         }
-    })
+    });
 }
+function displayTrails(data, trails) {
+    //clear out previous data
+    cardDisplayEl.textContent = "";
+    for(var i = 0; i < trails.length; i++ ) {
+        //for image
+        if(trails[i].imgMedium !== "" ) {
+            var calloutContainer = document.createElement("div");
+            calloutContainer.classList = "column"
+            var callout = document.createElement("div");
+            callout.classList = "callout";
+            var calloutImg = document.createElement("img");
+            calloutImg.setAttribute("src", trails[i].imgMedium);
+            callout.appendChild(calloutImg);
+            calloutContainer.appendChild(callout);
+        } else {
+            var calloutContainer = document.createElement("div");
+            calloutContainer.classList = "column"
+            var callout = document.createElement("div");
+            callout.classList = "callout";
+            var calloutImg = document.createElement("img");
+            calloutImg.setAttribute("src", "assets/images/mountain.png");
+            //Icons made by <a href="https://www.flaticon.com/authors/pongsakornred" title="pongsakornRed">pongsakornRed</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+            callout.appendChild(calloutImg);
+            calloutContainer.appendChild(callout);
+        };
+        
+        //for title of hike
+        var hikeTitle = document.createElement("p");
+        hikeTitle.classList = "lead";
+        hikeTitle.textContent = trails[i].name;
+        callout.appendChild(hikeTitle);
 
-function displayTrails(trails) {
+        var hikeLocation = document.createElement('p');
+        hikeLocation.classList = "subheader";
+        hikeLocation.textContent = trails[i].location;
+        callout.appendChild(hikeLocation);
+
+        //append all to page
+        cardDisplayEl.appendChild(calloutContainer);
+    }
     
 }
 
