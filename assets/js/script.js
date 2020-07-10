@@ -87,9 +87,8 @@ function displayTrails(data, trails) {
 
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
-        
     }
-
+    
 }
 
 //event listeners
