@@ -1586,6 +1586,25 @@ legend {
     margin: 0;
     margin-left: -0.1875rem; }
 
+input[type="list"] {
+  height: 2.4375rem;
+  padding: 0.5rem;
+  border: 1px solid #cacaca;
+  border-radius: 0;
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: normal;
+  color: #8a8a8a;
+  background-color: #fafafa;
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-size: 9px 6px;
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat; 
+}
+
 select {
   height: 2.4375rem;
   padding: 0.5rem;
