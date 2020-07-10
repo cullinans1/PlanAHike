@@ -53,20 +53,29 @@
         <div class="row">
           <div class="small-12 columns">
             <label>Locate Your Hike
-              <input type="text" placeholder="Search destinations">
+              <input type="text" id="search-term" placeholder="Search destinations">
             </label>
           </div>
           <div class="small-12 columns">
             <label>Select an Option
-              <br>
+              <select id = "myList">
+                <option value="" disabled selected>Sort by</option>
+                <option value = "1">Distance (High to Low)</option>
+                <option value = "2">Distance (Low to High)</option>
+                <option value = "3">Trail Length (High to Low)</option>
+                <option value = "4">Trail Length (Low to High)</option>
+                <option value = "3">Rating (High to Low)</option>
+                <option value = "4">Rating (Low to High)</option>
+              </select>
+            </label>
+              <!-- <br>
               <input type="checkbox" name="favorite_pet" value="Cats">Distance (High to Low)<br>      
               <input type="checkbox" name="favorite_pet" value="Cats">Distance (Low to High)<br>     
               <input type="checkbox" name="favorite_pet" value="Dogs">Trail Length (High to Low)<br>     
               <input type="checkbox" name="favorite_pet" value="Dogs">Trail Length (Low to High)<br>  
               <input type="checkbox" name="favorite_pet" value="Birds">Rating (High to Low)<br> 
-              <input type="checkbox" name="favorite_pet" value="Birds">Rating (Low to High)<br>      
-            </label>
-            <button type="submit" class="button">Search Now!</button>
+              <input type="checkbox" name="favorite_pet" value="Birds">Rating (Low to High)<br>       -->
+            <button type="submit" class="button" id="search-button">Search Now!</button>
           </div>
         </div>
       </form>
@@ -83,7 +92,7 @@
   <p class="lead">Trending Planetary Destinations</p>
 </div>
 
-<div class="row small-up-1 medium-up-2 large-up-3">
+<div class="row small-up-1 medium-up-2 large-up-3" id="cards"> 
   <div class="column">
     <div class="callout">
       <p>Pegasi B</p>
@@ -207,5 +216,6 @@
     <script>
       $(document).foundation();
     </script>
+    <script src="assets/js/script.js"></script>
   </body>
 </html>
