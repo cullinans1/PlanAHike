@@ -147,6 +147,7 @@ var formSubmitHandler = function(event){
 
     if (searchValue) {
         storeSearchHistory(searchValue);
+        getCityCoord(searchValue);
         searchInputEl.value = "";
     } else {
         //TODO : VALIDATION MODAL TO GO HERE TO STATE THAT USER NEEDS TO ENTER A VALID DESTINATION (NOT BLANK)
