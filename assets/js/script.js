@@ -110,12 +110,12 @@ function displayTrails(data, trails) {
         sliceValue += 6
         firstSliceValue += 6
         var slicedValue = firstSlice = data.trails.slice(firstSliceValue, sliceValue)
-        slicedResults();
+        slicedResults(slicedValue);
         console.log(slicedValue);
     }
     loadMoreEl.addEventListener("click", addSliceValue);
-    function slicedResults () {
-    for(var i = 0; i < sLength; i++ ) {
+    function slicedResults (slicedValue) {
+    for(var i = 0; i < slicedValue; i++ ) {
         if(trails[i].imgMedium !== "" ) {
             var calloutContainer = document.createElement("div");
             calloutContainer.classList = "column"
