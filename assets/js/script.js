@@ -97,6 +97,8 @@ function getHikingInfo(lat, lon) {
             response.json().then(function(data) {
                 console.log(data.trails)
                 displayTrails(data, data.trails)
+                //show load more button
+                removeHiddenEl.removeAttribute("id", "hidden");
             });
         } else {
             noResultsEl.removeAttribute("id", "hidden");
@@ -108,8 +110,6 @@ function getHikingInfo(lat, lon) {
 function displayTrails(data, trails) {
     //remove instructions
     instructionsEl.setAttribute("id", "hidden");
-    //show load more button
-    removeHiddenEl.removeAttribute("id", "hidden");
     //clear out previous data
     cardDisplayEl.textContent = "";
     for(var i = 0; i < 6; i++ ) {
@@ -195,11 +195,11 @@ function displayTrails(data, trails) {
     //var firstSlice = data.trails.slice(firstSliceValue, sliceValue);
     function addSliceValue () {
         event.preventDefault();
-        sliceValue += 6
-        firstSliceValue += 6
-        var slicedValue = firstSlice = data.trails.slice(firstSliceValue, sliceValue)
-        slicedResults(slicedValue);
-        console.log(slicedValue);
+        sliceValue += 6;
+        firstSliceValue += 6;
+        console.log(data);
+        slicedResults(data.trails.slice(firstSliceValue, sliceValue));
+        console.log(data.trails);
     }
     loadMoreEl.addEventListener("click", addSliceValue);
     function slicedResults (slicedValue) {
