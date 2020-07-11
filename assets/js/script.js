@@ -87,9 +87,9 @@ function forecastWeather(lat, lon) {
     })
 }
 function getHikingInfo(lat, lon) {
-  var selected = getSelectedValue();
-  console.log(selected);
-  fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&sort=" + selected + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
+  // var selectedItem = getSelectedValue();
+  // console.log(selectedItem);
+  fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + /*"&sort=" + selected*/ "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
