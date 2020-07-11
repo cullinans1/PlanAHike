@@ -86,7 +86,9 @@ function forecastWeather(lat, lon) {
 }
 
 function getHikingInfo(lat, lon) {
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
+  //var selectedItem = getSelectedItem();
+  //console.log(selectedItem);
+    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + /*"&sort=" + selected +*/ "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -149,12 +151,6 @@ function displayTrails(data, trails) {
         modalButton.setAttribute("data-id", i);
         modalButton.id = "myBtn";
         callout.appendChild(modalButton);
-
-        // //trail difficulty data
-        // var difficulty = document.getElementById("difficulty");
-        // var difficultyData = document.createElement("span");
-        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
-        // difficulty.appendChild(difficultyData);
   
 
         // when the user clicks on the button, open modal
@@ -240,12 +236,6 @@ function displayTrails(data, trails) {
         modalButton.id = "myBtn";
         callout.appendChild(modalButton);
 
-        // //trail difficulty data
-        // var difficulty = document.getElementById("difficulty");
-        // var difficultyData = document.createElement("span");
-        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
-        // difficulty.appendChild(difficultyData);
-  
 
         // when the user clicks on the button, open modal
         modalButton.onclick = function(e) {
@@ -286,6 +276,21 @@ function showModal(data){
     var descent = document.getElementById("descent");
     descent.textContent = "Descent: " + data.descent + " ft"; 
 }
+
+// Testing drop down values - start
+
+// Grabbing drop down values
+function getSelectedValue () {
+  var list = document.getElementById("myList");
+  console.log(list)
+  var result = list.options[list.selectedIndex].value;
+  console.log(result)
+}
+
+searchBtnEl.addEventListener("click", getSelectedValue);
+
+//Testing drop down values - end
+
 
 var formSubmitHandler = function(event){
     event.preventDefault();
