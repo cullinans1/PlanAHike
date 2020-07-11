@@ -87,29 +87,25 @@ function displayTrails(data, trails) {
         hikeLocation.textContent = trails[i].location;
         callout.appendChild(hikeLocation);
 
-        // //trail difficulty data
-        var difficulty = document.getElementById("difficulty");
-        var difficultyData = document.createElement("span");
-        difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
-        difficulty.appendChild(difficultyData);
-
-        // //trail length data
-        // var length = document.getElementById("length");
-        // var lengthData = document.createElement("span");
-        // lengthData.textContent = "Length: " + trails[i].length;
-        // length.appendChild(lengthData);
-
         //button that opens modal
         var modalButton = document.createElement("button");
         modalButton.textContent = "See trial details";
         modalButton.classList.add("modalBtn");
+        modalButton.setAttribute("data-id", i);
         modalButton.id = "myBtn";
         callout.appendChild(modalButton);
-        
+
+        // //trail difficulty data
+        // var difficulty = document.getElementById("difficulty");
+        // var difficultyData = document.createElement("span");
+        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
+        // difficulty.appendChild(difficultyData);
+  
 
         // when the user clicks on the button, open modal
-        modalButton.onclick = function() {
-            modal.style.display = "block";
+        modalButton.onclick = function(e) {
+            const thisTrail = trails[parseInt(e.target.dataset.id)]
+            showModal(thisTrail);
         }
 
         //when the user clicks on <span> (x), close the modal
@@ -124,7 +120,6 @@ function displayTrails(data, trails) {
             }
         }
 
-
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
 
@@ -132,9 +127,21 @@ function displayTrails(data, trails) {
 
 }
 
+//function that changes the textContent of each data. based on the data.attribute set
+function showModal(data){
+    modal.style.display = "block";
+    var difficulty = document.getElementById("difficulty");
+    difficulty.textContent = "Difficulty: " + data.difficulty;
 
+    var length = document.getElementById("length");
+    length.textContent = "Length: " + data.length;
 
+    var ascent = document.getElementById("ascent");
+    ascent.textContent = "Ascent: " + data.ascent;
 
+    var descent = document.getElementById("descent");
+    descent.textContent = "Descent: " + data.descent;
+}
 
 
 //event listeners
