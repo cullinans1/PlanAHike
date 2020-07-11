@@ -195,8 +195,8 @@ function displayTrails(data, trails) {
     //var firstSlice = data.trails.slice(firstSliceValue, sliceValue);
     function addSliceValue () {
         event.preventDefault();
-        sliceValue += 6
-        firstSliceValue += 6
+        sliceValue += 6;
+        firstSliceValue += 6;
         var slicedValue = data.trails.slice(firstSliceValue, sliceValue);
         console.log(data);
         slicedResults(slicedValue);
