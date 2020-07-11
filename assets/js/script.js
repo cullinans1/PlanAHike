@@ -7,6 +7,9 @@ var searchFormEl = document.querySelector("#search-form");
 var searchInputEl = document.querySelector("#searchTxtInput");
 var historyContainerEl = document.querySelector("#searchDatalist");
 var loadMoreEl = document.getElementById("load-more");
+var removeHiddenEl = document.querySelector(".loadBtn");
+var instructionsEl = document.querySelector(".entry");
+var noResultsEl = document.querySelector(".no-results")
 
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
@@ -57,7 +60,7 @@ var getCityHandler = function(event) {
         getCityCoord(cityName);
         searchInputEl.value= "";
     } else {
-        return;
+        
     }
 }
 
@@ -71,7 +74,9 @@ function getCityCoord(city, state) {
             forecastWeather(data.coord.lat, data.coord.lon);
             });
         } else {
-            
+            noResultsEl.removeAttribute("id", "hidden");
+            instructionsEl.setAttribute("id", "hidden");
+            return;
         }
     });
 }
@@ -92,14 +97,19 @@ function getHikingInfo(lat, lon) {
             response.json().then(function(data) {
                 console.log(data.trails)
                 displayTrails(data, data.trails)
+                //show load more button
+                removeHiddenEl.removeAttribute("id", "hidden");
             });
         } else {
-            
+            noResultsEl.removeAttribute("id", "hidden");
+            return;
         }
     });
 }
 
 function displayTrails(data, trails) {
+    //remove instructions
+    instructionsEl.setAttribute("id", "hidden");
     //clear out previous data
     cardDisplayEl.textContent = "";
     for(var i = 0; i < 6; i++ ) {
@@ -185,9 +195,10 @@ function displayTrails(data, trails) {
     //var firstSlice = data.trails.slice(firstSliceValue, sliceValue);
     function addSliceValue () {
         event.preventDefault();
-        sliceValue += 6
-        firstSliceValue += 6
-        var slicedValue = firstSlice = data.trails.slice(firstSliceValue, sliceValue)
+        sliceValue += 6;
+        firstSliceValue += 6;
+        var slicedValue = data.trails.slice(firstSliceValue, sliceValue);
+        console.log(data);
         slicedResults(slicedValue);
         console.log(slicedValue);
     }

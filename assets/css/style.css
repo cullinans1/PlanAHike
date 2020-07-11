@@ -388,7 +388,10 @@ img {
   display: inline-block;
   vertical-align: middle; 
 }
-
+/* hidden class */
+#hidden {
+  display: none;
+}
 textarea {
   height: auto;
   min-height: 50px;
@@ -2113,8 +2116,8 @@ select {
 .callout {
   margin: 0 0 1rem 0;
   padding: 1rem;
-  border: 1px solid rgba(10, 10, 10, 0.25);
-  border-radius: 0;
+  border: 2px solid rgba(10, 10, 10, 0.25);
+  border-radius: 5px;
   position: relative;
   background-color: white;
   height: 500px;
