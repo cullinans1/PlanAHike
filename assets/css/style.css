@@ -419,8 +419,8 @@ button {
 
 /* yosemite falls in search area div */
 .backgroundimg {
-  background: url(../../assets/images/panorama.jpg) 50% 50% no-repeat;
-  /* background-repeat: no-repeat; */
+    background: url(../../assets/images/panorama.jpg) 50% 50% no-repeat;
+    /* background-repeat: no-repeat; */
 }
 
 .row {
