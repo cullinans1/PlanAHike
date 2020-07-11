@@ -7,6 +7,7 @@ var searchFormEl = document.querySelector("#search-form");
 var searchInputEl = document.querySelector("#searchTxtInput");
 var historyContainerEl = document.querySelector("#searchDatalist");
 var loadMoreEl = document.getElementById("load-more");
+var removeHiddenEl = document.getElementById("hidden");
 
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
@@ -100,6 +101,8 @@ function getHikingInfo(lat, lon) {
 }
 
 function displayTrails(data, trails) {
+    //show load more button
+    removeHiddenEl.removeAttribute("id", "hidden");
     //clear out previous data
     cardDisplayEl.textContent = "";
     for(var i = 0; i < 6; i++ ) {

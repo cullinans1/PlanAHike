@@ -388,7 +388,10 @@ img {
   display: inline-block;
   vertical-align: middle; 
 }
-
+/* hidden class */
+#hidden {
+  display: none;
+}
 textarea {
   height: auto;
   min-height: 50px;
