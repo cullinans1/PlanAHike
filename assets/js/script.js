@@ -86,9 +86,9 @@ function forecastWeather(lat, lon) {
 }
 
 function getHikingInfo(lat, lon) {
-  // var selectedItem = getSelectedValue();
+  var selectedItem = getSelectedValue();
   // console.log(selectedItem);
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + /*"&sort=" + selectedItem +*/ "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
+    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" /*+ "&sort=" + selectedItem*/)
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -285,8 +285,6 @@ function getSelectedValue () {
   var result = list.options[list.selectedIndex].value;
   console.log(result)
 }
-
-searchBtnEl.addEventListener("click", getSelectedValue);
 
 //Testing drop down values - end
 
