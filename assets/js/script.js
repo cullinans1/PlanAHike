@@ -68,6 +68,8 @@ function getCityCoord(city, state) {
     .then(function(response){
         if (response.ok) {
             response.json().then(function(data) {
+            // var selected = getSelectedValue();
+            // console.log(selected);
             getHikingInfo(data.coord.lat, data.coord.lon);
             forecastWeather(data.coord.lat, data.coord.lon);
             });
@@ -80,12 +82,14 @@ function forecastWeather(lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
     .then(function(response) {
         response.json().then(function(data) {
-            console.log(data);
+            // console.log(data);
         })
     })
 }
 function getHikingInfo(lat, lon) {
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
+  var selected = getSelectedValue();
+  console.log(selected);
+  fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&sort=" + selected + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -189,6 +193,7 @@ function showModal(data){
 // Grabbing drop down values
 function getSelectedValue () {
   var list = document.getElementById("myList");
+  console.log(list)
   var result = list.options[list.selectedIndex].value;
   console.log(result)
 }
