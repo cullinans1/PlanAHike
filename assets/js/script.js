@@ -1,50 +1,8 @@
-var searchFormEl = document.querySelector("#search-form");
-var searchInputEl = document.querySelector("#searchTxtInput");
-var historyContainerEl = document.querySelector("#searchDatalist");
-
-//create history dropdown elements in hike search field
-var createHistoryDropdown = function(){
-    //console.log("createHistoryDropdown");
-    historyContainerEl.innerHTML = "";
-    var searchHistoryArr = JSON.parse(localStorage.getItem("searchHistoryArr"));
-    if (searchHistoryArr != null){
-        searchHistoryArr = searchHistoryArr.sort();
-        //console.log(searchHistoryArr);
-        for (var i=0;i<searchHistoryArr.length;i++){
-            //console.log(searchHistoryArr[i]);
-            var historyListItem = document.createElement("option");
-            historyListItem.value = searchHistoryArr[i];
-            historyListItem.text = searchHistoryArr[i];
-            historyContainerEl.appendChild(historyListItem);
-        }
-
-    }
-
-}
-
-//store search in localStorage
-var storeSearchHistory = function(searchValue){
-    //console.log(searchValue);
-    
-    //strip search value of leading/trailing spaces and lowercase
-    var cleanedSearchValue = searchValue.toLowerCase().trim();
-    var searchHistoryArr = JSON.parse(localStorage.getItem("searchHistoryArr"));
-
-    //console.log(searchHistoryArr);
-
-    //if localstorage var doesn't exist
-    if (searchHistoryArr === null){
-        searchHistoryArr = [];
-    }
-
-    //avoids duplicates - if searched value does not already exist in localStorage array, add it
-    if (searchHistoryArr.indexOf(cleanedSearchValue) < 0){
-        searchHistoryArr.push(cleanedSearchValue);
-        localStorage.setItem("searchHistoryArr", JSON.stringify(searchHistoryArr));
-    }
-
-}
-
+var cardDisplayEl = document.getElementById("cards");
+var searchBtnEl = document.getElementById("search-button");
+var citySearchEl = document.getElementById("search-term");
+var span = document.getElementsByClassName("close")[0];
+var modal = document.getElementById('myModal');
 
 
 var getCityHandler = function(event) {
@@ -84,7 +42,7 @@ function getHikingInfo(lat, lon) {
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data.trails)
+                console.log("trails", data.trails)
                 displayTrails(data, data.trails)
             });
         } else {
@@ -129,29 +87,101 @@ function displayTrails(data, trails) {
         hikeLocation.textContent = trails[i].location;
         callout.appendChild(hikeLocation);
 
+        //button that opens modal
+        var modalButton = document.createElement("button");
+        modalButton.textContent = "See trial details";
+        modalButton.classList.add("modalBtn");
+        modalButton.setAttribute("data-id", i);
+        modalButton.id = "myBtn";
+        callout.appendChild(modalButton);
+
+        // //trail difficulty data
+        // var difficulty = document.getElementById("difficulty");
+        // var difficultyData = document.createElement("span");
+        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
+        // difficulty.appendChild(difficultyData);
+  
+
+        // when the user clicks on the button, open modal
+        modalButton.onclick = function(e) {
+            const thisTrail = trails[parseInt(e.target.dataset.id)]
+            showModal(thisTrail);
+        }
+
+        //when the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        //When the user clicks anywhere outside of modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
+
     }
-    
+
 }
 
-var formSubmitHandler = function(event){
-    event.preventDefault();
+//function that changes the textContent of each data. based on the data.attribute set
+function showModal(data){
+    modal.style.display = "block";
+    var difficulty = document.getElementById("difficulty");
+    difficulty.textContent = "Difficulty: " + data.difficulty;
 
-    //console.log(event);
+    var length = document.getElementById("length");
+    length.textContent = "Length: " + data.length;
 
-    // get value from input element
-    var searchValue = searchInputEl.value.trim();
-    
-    //console.log(cityname);
+    var ascent = document.getElementById("ascent");
+    ascent.textContent = "Ascent: " + data.ascent;
 
-    if (searchValue) {
-        storeSearchHistory(searchValue);
-        searchInputEl.value = "";
-    } else {
-        //TODO : VALIDATION MODAL TO GO HERE TO STATE THAT USER NEEDS TO ENTER A VALID DESTINATION (NOT BLANK)
-    }
+    var descent = document.getElementById("descent");
+    descent.textContent = "Descent: " + data.descent;
 }
 
-searchFormEl.addEventListener("submit", formSubmitHandler);
-searchInputEl.addEventListener("focus", createHistoryDropdown);
+
+//event listeners
+searchBtnEl.addEventListener("click", getCityHandler);
+
+
+
+
+
+
+
+
+
+
+
+// //NEED TO ADJUST CODE BASED ON COMPLETION OF HTML FILE AND HIKING TRAIL RESULTS
+// //DYNAMICALLY CREATE HTML/CSS FOR MODULE THROUGH JS FILE
+
+// // Get the modal
+// var modal = document.getElementById('myModal'); 
+
+// // Get the button that opens the modal
+// var btn = document.getElementById("myBtn"); 
+
+// // Get the <span> element that closes the modal
+// var span = document.getElementsByClassName("close")[0];
+
+// // When the user clicks on the button, open the modal
+// btn.onclick = function() {
+//     modal.style.display = "block";
+// }
+
+// // When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//     modal.style.display = "none";
+// }
+
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// }
