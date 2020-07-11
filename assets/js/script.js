@@ -115,7 +115,7 @@ function displayTrails(data, trails) {
     }
     loadMoreEl.addEventListener("click", addSliceValue);
     function slicedResults (slicedValue) {
-    for(var i = 0; i < slicedValue; i++ ) {
+    for(var i = 0; i < slicedValue.length; i++ ) {
         if(trails[i].imgMedium !== "" ) {
             var calloutContainer = document.createElement("div");
             calloutContainer.classList = "column"
