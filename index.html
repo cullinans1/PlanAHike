@@ -49,11 +49,12 @@
 
   <div class="medium-5 large-3 columns">
     <div class="callout_custom">
-      <form>
+      <form id="search-form">
         <div class="row">
           <div class="small-12 columns">
             <label>Locate Your Hike
-              <input type="text" id="search-term" placeholder="Search destinations">
+              <input type="list" list="searchDatalist" id="searchTxtInput" classs="searchTxtInput" placeholder="Search destinations">
+                <datalist id="searchDatalist"></datalist>
             </label>
           </div>
           <div class="small-12 columns">
@@ -231,6 +232,7 @@
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script src="./assets/js/script.js"></script>
     <script>
       $(document).foundation();
     </script>
