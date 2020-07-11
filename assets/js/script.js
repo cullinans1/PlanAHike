@@ -72,7 +72,7 @@ function getCityCoord(city, state) {
             forecastWeather(data.coord.lat, data.coord.lon);
             });
         } else {
-            
+            //add modal here for invalid entries
         }
     });
 };
@@ -93,7 +93,7 @@ function getHikingInfo(lat, lon) {
                 displayTrails(data, data.trails)
             });
         } else {
-            
+            //add modal here for invalid entries
         }
     });
 }
