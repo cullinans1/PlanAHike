@@ -175,7 +175,7 @@ function showModal(data){
     difficulty.textContent = "Difficulty: " + data.difficulty;
 
     var length = document.getElementById("length");
-    length.textContent = "Length: " + data.length;
+    length.textContent = "Length: " + data.length + " " + "miles";
 
     var ascent = document.getElementById("ascent");
     ascent.textContent = "Ascent: " + data.ascent;
@@ -183,6 +183,19 @@ function showModal(data){
     var descent = document.getElementById("descent");
     descent.textContent = "Descent: " + data.descent;
 }
+
+// Testing drop down values - start
+
+// Grabbing drop down values
+function getSelectedValue () {
+  var list = document.getElementById("myList");
+  var result = list.options[list.selectedIndex].value;
+  console.log(result)
+}
+
+searchBtnEl.addEventListener("click", getSelectedValue);
+
+//Testing drop down values - end
 
 
 //event listeners
@@ -210,3 +223,12 @@ var formSubmitHandler = function(event){
 
 searchFormEl.addEventListener("submit", formSubmitHandler);
 searchInputEl.addEventListener("focus", createHistoryDropdown);
+
+
+
+
+
+
+
+
+
