@@ -50,8 +50,6 @@ var storeSearchHistory = function(searchValue){
 
 }
 
-
-
 var getCityHandler = function(event) {
     event.preventDefault();
     var cityName = searchInputEl.value.trim();
@@ -62,6 +60,7 @@ var getCityHandler = function(event) {
         return;
     }
 }
+
 function getCityCoord(city, state) {
     
     fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
@@ -75,7 +74,8 @@ function getCityCoord(city, state) {
             
         }
     });
-};
+}
+
 function forecastWeather(lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
     .then(function(response) {
@@ -84,6 +84,7 @@ function forecastWeather(lat, lon) {
         })
     })
 }
+
 function getHikingInfo(lat, lon) {
     fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
     .then(function(response) {
@@ -97,6 +98,7 @@ function getHikingInfo(lat, lon) {
         }
     });
 }
+
 function displayTrails(data, trails) {
     //clear out previous data
     cardDisplayEl.textContent = "";
@@ -131,8 +133,15 @@ function displayTrails(data, trails) {
 
         var hikeLocation = document.createElement('p');
         hikeLocation.classList = "subheader";
+        hikeLocation.style = "color: black;"
         hikeLocation.textContent = trails[i].location;
         callout.appendChild(hikeLocation);
+
+        //for discription
+        var hikeSummary = document.createElement('p');
+        hikeSummary.classList = "subheader";
+        hikeSummary.textContent = trails[i].summary;
+        callout.appendChild(hikeSummary);
 
         //button that opens modal
         var modalButton = document.createElement("button");
@@ -190,20 +199,6 @@ function showModal(data){
     descent.textContent = "Descent: " + data.descent;
 }
 
-
-//event listeners
-searchBtnEl.addEventListener("click", getCityHandler);
-
-
-
-
-
-
-
-
-
-
-
 // //NEED TO ADJUST CODE BASED ON COMPLETION OF HTML FILE AND HIKING TRAIL RESULTS
 // //DYNAMICALLY CREATE HTML/CSS FOR MODULE THROUGH JS FILE
 
@@ -233,10 +228,9 @@ searchBtnEl.addEventListener("click", getCityHandler);
 //     }
 // }
         //append all to page
-        cardDisplayEl.appendChild(calloutContainer);
-    }
-    
-}
+        //cardDisplayEl.appendChild(calloutContainer);
+    //}
+//}
 
 var formSubmitHandler = function(event){
     event.preventDefault();
@@ -257,5 +251,8 @@ var formSubmitHandler = function(event){
     }
 }
 
+
+//event listeners
+searchBtnEl.addEventListener("click", getCityHandler);
 searchFormEl.addEventListener("submit", formSubmitHandler);
 searchInputEl.addEventListener("focus", createHistoryDropdown);
