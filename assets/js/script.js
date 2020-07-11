@@ -84,8 +84,15 @@ function displayTrails(data, trails) {
 
         var hikeLocation = document.createElement('p');
         hikeLocation.classList = "subheader";
+        hikeLocation.style = "color: black;"
         hikeLocation.textContent = trails[i].location;
         callout.appendChild(hikeLocation);
+
+        //for discription
+        var hikeSummary = document.createElement('p');
+        hikeSummary.classList = "subheader";
+        hikeSummary.textContent = trails[i].summary;
+        callout.appendChild(hikeSummary);
 
         //button that opens modal
         var modalButton = document.createElement("button");
