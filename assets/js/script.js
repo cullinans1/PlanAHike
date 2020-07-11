@@ -6,6 +6,7 @@ var modal = document.getElementById('myModal');
 var searchFormEl = document.querySelector("#search-form");
 var searchInputEl = document.querySelector("#searchTxtInput");
 var historyContainerEl = document.querySelector("#searchDatalist");
+var loadMoreEl = document.getElementById("load-more");
 
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
@@ -22,7 +23,6 @@ var createHistoryDropdown = function(){
             historyListItem.text = searchHistoryArr[i];
             historyContainerEl.appendChild(historyListItem);
         }
-
     }
 
 }
@@ -50,8 +50,6 @@ var storeSearchHistory = function(searchValue){
 
 }
 
-
-
 var getCityHandler = function(event) {
     event.preventDefault();
     var cityName = searchInputEl.value.trim();
@@ -62,34 +60,33 @@ var getCityHandler = function(event) {
         return;
     }
 }
+
 function getCityCoord(city, state) {
     
     fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
     .then(function(response){
         if (response.ok) {
             response.json().then(function(data) {
-            // var selected = getSelectedValue();
-            // console.log(selected);
             getHikingInfo(data.coord.lat, data.coord.lon);
             forecastWeather(data.coord.lat, data.coord.lon);
             });
         } else {
-            //add modal here for invalid entries
+            
         }
     });
-};
+}
+
 function forecastWeather(lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
     .then(function(response) {
         response.json().then(function(data) {
-            // console.log(data);
+            console.log(data);
         })
     })
 }
+
 function getHikingInfo(lat, lon) {
-  // var selectedItem = getSelectedValue();
-  // console.log(selectedItem);
-  fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + /*"&sort=" + selected*/ "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
+    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -97,15 +94,15 @@ function getHikingInfo(lat, lon) {
                 displayTrails(data, data.trails)
             });
         } else {
-            //add modal here for invalid entries
+            
         }
     });
 }
+
 function displayTrails(data, trails) {
     //clear out previous data
     cardDisplayEl.textContent = "";
-    for(var i = 0; i < trails.length; i++ ) {
-        //for image
+    for(var i = 0; i < 6; i++ ) {
         if(trails[i].imgMedium !== "" ) {
             var calloutContainer = document.createElement("div");
             calloutContainer.classList = "column"
@@ -135,8 +132,15 @@ function displayTrails(data, trails) {
 
         var hikeLocation = document.createElement('p');
         hikeLocation.classList = "subheader";
+        hikeLocation.style = "color: black;"
         hikeLocation.textContent = trails[i].location;
         callout.appendChild(hikeLocation);
+
+        //for discription
+        var hikeSummary = document.createElement('p');
+        hikeSummary.classList = "subheader";
+        hikeSummary.textContent = trails[i].summary;
+        callout.appendChild(hikeSummary);
 
         //button that opens modal
         var modalButton = document.createElement("button");
@@ -145,6 +149,12 @@ function displayTrails(data, trails) {
         modalButton.setAttribute("data-id", i);
         modalButton.id = "myBtn";
         callout.appendChild(modalButton);
+
+        // //trail difficulty data
+        // var difficulty = document.getElementById("difficulty");
+        // var difficultyData = document.createElement("span");
+        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
+        // difficulty.appendChild(difficultyData);
   
 
         // when the user clicks on the button, open modal
@@ -167,9 +177,98 @@ function displayTrails(data, trails) {
 
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
-
     }
+    //slicing data to display on page
+    var firstSliceValue = 0
+    var sliceValue = 6
+    
+    //var firstSlice = data.trails.slice(firstSliceValue, sliceValue);
+    function addSliceValue () {
+        event.preventDefault();
+        sliceValue += 6
+        firstSliceValue += 6
+        var slicedValue = firstSlice = data.trails.slice(firstSliceValue, sliceValue)
+        slicedResults(slicedValue);
+        console.log(slicedValue);
+    }
+    loadMoreEl.addEventListener("click", addSliceValue);
+    function slicedResults (slicedValue) {
+    for(var i = 0; i < slicedValue.length; i++ ) {
+        if(slicedValue[i].imgMedium !== "" ) {
+            var calloutContainer = document.createElement("div");
+            calloutContainer.classList = "column"
+            var callout = document.createElement("div");
+            callout.classList = "callout";
+            var calloutImg = document.createElement("img");
+            calloutImg.setAttribute("src", slicedValue[i].imgMedium);
+            callout.appendChild(calloutImg);
+            calloutContainer.appendChild(callout);
+        } else {
+            var calloutContainer = document.createElement("div");
+            calloutContainer.classList = "column"
+            var callout = document.createElement("div");
+            callout.classList = "callout";
+            var calloutImg = document.createElement("img");
+            calloutImg.setAttribute("src", "assets/images/mountain.png");
+            //Icons made by <a href="https://www.flaticon.com/authors/pongsakornred" title="pongsakornRed">pongsakornRed</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+            callout.appendChild(calloutImg);
+            calloutContainer.appendChild(callout);
+        };
+        
+        //for title of hike
+        var hikeTitle = document.createElement("p");
+        hikeTitle.classList = "lead";
+        hikeTitle.textContent = slicedValue[i].name;
+        callout.appendChild(hikeTitle);
 
+        var hikeLocation = document.createElement('p');
+        hikeLocation.classList = "subheader";
+        hikeLocation.style = "color: black;"
+        hikeLocation.textContent = slicedValue[i].location;
+        callout.appendChild(hikeLocation);
+
+        var hikeSummary = document.createElement('p');
+        hikeSummary.classList = "subheader";
+        hikeSummary.textContent = slicedValue[i].summary;
+        callout.appendChild(hikeSummary);
+
+        //button that opens modal
+        var modalButton = document.createElement("button");
+        modalButton.textContent = "See trial details";
+        modalButton.classList.add("modalBtn");
+        modalButton.setAttribute("data-id", i);
+        modalButton.id = "myBtn";
+        callout.appendChild(modalButton);
+
+        // //trail difficulty data
+        // var difficulty = document.getElementById("difficulty");
+        // var difficultyData = document.createElement("span");
+        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
+        // difficulty.appendChild(difficultyData);
+  
+
+        // when the user clicks on the button, open modal
+        modalButton.onclick = function(e) {
+            const thisTrail = slicedValue[parseInt(e.target.dataset.id)]
+            showModal(thisTrail);
+        }
+
+        //when the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        //When the user clicks anywhere outside of modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        //append all to page
+        cardDisplayEl.appendChild(calloutContainer);
+    }
+    }
 }
 
 //function that changes the textContent of each data. based on the data.attribute set
@@ -179,33 +278,14 @@ function showModal(data){
     difficulty.textContent = "Difficulty: " + data.difficulty;
 
     var length = document.getElementById("length");
-    length.textContent = "Length: " + data.length + " " + "miles";
+    length.textContent = "Length: " + data.length + " mi";
 
     var ascent = document.getElementById("ascent");
-    ascent.textContent = "Ascent: " + data.ascent;
+    ascent.textContent = "Ascent: " + data.ascent + " ft";
 
     var descent = document.getElementById("descent");
-    descent.textContent = "Descent: " + data.descent;
+    descent.textContent = "Descent: " + data.descent + " ft"; 
 }
-
-// Testing drop down values - start
-
-// Grabbing drop down values
-function getSelectedValue () {
-  var list = document.getElementById("myList");
-  console.log(list)
-  var result = list.options[list.selectedIndex].value;
-  console.log(result)
-}
-
-searchBtnEl.addEventListener("click", getSelectedValue);
-
-//Testing drop down values - end
-
-
-//event listeners
-searchBtnEl.addEventListener("click", getCityHandler);
-
 
 var formSubmitHandler = function(event){
     event.preventDefault();
@@ -226,6 +306,9 @@ var formSubmitHandler = function(event){
     }
 }
 
+
+//event listeners
+searchBtnEl.addEventListener("click", getCityHandler);
 searchFormEl.addEventListener("submit", formSubmitHandler);
 searchInputEl.addEventListener("focus", createHistoryDropdown);
 
