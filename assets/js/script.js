@@ -6,7 +6,7 @@ var modal = document.getElementById('myModal');
 var searchFormEl = document.querySelector("#search-form");
 var searchInputEl = document.querySelector("#searchTxtInput");
 var historyContainerEl = document.querySelector("#searchDatalist");
-var cardDisplayEl = document.getElementById("cards");
+var loadMoreEl = document.getElementById("load-more");
 
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
@@ -100,8 +100,22 @@ function getHikingInfo(lat, lon) {
 function displayTrails(data, trails) {
     //clear out previous data
     cardDisplayEl.textContent = "";
-    for(var i = 0; i < trails.length; i++ ) {
-        //for image
+    //slicing data to display on page
+    var firstSliceValue = 0
+    var sliceValue = 6
+    
+    //var firstSlice = data.trails.slice(firstSliceValue, sliceValue);
+    function addSliceValue () {
+        event.preventDefault();
+        sliceValue += 6
+        firstSliceValue += 6
+        var slicedValue = firstSlice = data.trails.slice(firstSliceValue, sliceValue)
+        slicedResults();
+        console.log(slicedValue);
+    }
+    loadMoreEl.addEventListener("click", addSliceValue);
+    function slicedResults () {
+    for(var i = 0; i < sLength; i++ ) {
         if(trails[i].imgMedium !== "" ) {
             var calloutContainer = document.createElement("div");
             calloutContainer.classList = "column"
@@ -169,9 +183,8 @@ function displayTrails(data, trails) {
 
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
-
     }
-
+    }
 }
 
 //function that changes the textContent of each data. based on the data.attribute set
@@ -232,11 +245,7 @@ searchBtnEl.addEventListener("click", getCityHandler);
 //         modal.style.display = "none";
 //     }
 // }
-        //append all to page
-        cardDisplayEl.appendChild(calloutContainer);
-    }
-    
-}
+
 
 var formSubmitHandler = function(event){
     event.preventDefault();

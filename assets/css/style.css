@@ -392,6 +392,12 @@ textarea {
   height: auto;
   min-height: 50px;
   border-radius: 0; }
+  
+/* Hiding results */
+.hidden {
+  display: none;
+}
+
 
 select {
   width: 100%;
