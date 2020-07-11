@@ -383,21 +383,16 @@ body {
 
 img {
   max-width: 100%;
-  height: auto;
+  height: 250px;
   -ms-interpolation-mode: bicubic;
   display: inline-block;
-  vertical-align: middle; }
+  vertical-align: middle; 
+}
 
 textarea {
   height: auto;
   min-height: 50px;
   border-radius: 0; }
-  
-/* Hiding results */
-.hidden {
-  display: none;
-}
-
 
 select {
   width: 100%;
@@ -425,8 +420,8 @@ button {
 
 /* yosemite falls in search area div */
 .backgroundimg {
-    background: url(../../assets/images/panorama.jpg) 50% 50% no-repeat;
-    /* background-repeat: no-repeat; */
+  background: url(../../assets/images/panorama.jpg) 50% 50% no-repeat;
+  /* background-repeat: no-repeat; */
 }
 
 .row {
@@ -2121,7 +2116,9 @@ select {
   border: 1px solid rgba(10, 10, 10, 0.25);
   border-radius: 0;
   position: relative;
-  background-color: white; }
+  background-color: white;
+  height: 500px;
+ }
   .callout > :first-child {
     margin-top: 0; }
   .callout > :last-child {
@@ -3281,15 +3278,3 @@ table.hover tr:nth-of-type(even):hover {
     float: left; }
   .top-bar-right {
     float: right; } }
-
-
-
-
-
-
-
-
-
-
-
-    
