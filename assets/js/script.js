@@ -11,6 +11,7 @@ var removeHiddenEl = document.querySelector(".loadBtn");
 var instructionsEl = document.querySelector(".entry");
 var noResultsEl = document.querySelector(".no-results")
 
+
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
     //console.log("createHistoryDropdown");
@@ -60,7 +61,7 @@ var getCityHandler = function(event) {
         getCityCoord(cityName);
         searchInputEl.value= "";
     } else {
-        
+        return;
     }
 }
 
@@ -91,7 +92,10 @@ function forecastWeather(lat, lon) {
 }
 
 function getHikingInfo(lat, lon) {
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
+  var selectedItem = getSelectedValue();
+  // console.log(selectedItem);
+    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" /*+ "&sort=" + selectedItem*/)
+
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -108,6 +112,7 @@ function getHikingInfo(lat, lon) {
 }
 
 function displayTrails(data, trails) {
+
     //remove instructions
     instructionsEl.setAttribute("id", "hidden");
     //clear out previous data
@@ -159,12 +164,6 @@ function displayTrails(data, trails) {
         modalButton.setAttribute("data-id", i);
         modalButton.id = "myBtn";
         callout.appendChild(modalButton);
-
-        // //trail difficulty data
-        // var difficulty = document.getElementById("difficulty");
-        // var difficultyData = document.createElement("span");
-        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
-        // difficulty.appendChild(difficultyData);
   
 
         // when the user clicks on the button, open modal
@@ -251,12 +250,6 @@ function displayTrails(data, trails) {
         modalButton.id = "myBtn";
         callout.appendChild(modalButton);
 
-        // //trail difficulty data
-        // var difficulty = document.getElementById("difficulty");
-        // var difficultyData = document.createElement("span");
-        // difficultyData.textContent = "Difficulty: " + trails[i].difficulty;
-        // difficulty.appendChild(difficultyData);
-  
 
         // when the user clicks on the button, open modal
         modalButton.onclick = function(e) {
@@ -298,38 +291,16 @@ function showModal(data){
     descent.textContent = "Descent: " + data.descent + " ft"; 
 }
 
-// //NEED TO ADJUST CODE BASED ON COMPLETION OF HTML FILE AND HIKING TRAIL RESULTS
-// //DYNAMICALLY CREATE HTML/CSS FOR MODULE THROUGH JS FILE
+// Testing drop down values - start
 
-// // Get the modal
-// var modal = document.getElementById('myModal'); 
+// Grabbing drop down values
+function getSelectedValue () {
+  var list = document.getElementById("myList");
+  var result = list.options[list.selectedIndex].value;
+  console.log(result)
+}
 
-// // Get the button that opens the modal
-// var btn = document.getElementById("myBtn"); 
-
-// // Get the <span> element that closes the modal
-// var span = document.getElementsByClassName("close")[0];
-
-// // When the user clicks on the button, open the modal
-// btn.onclick = function() {
-//     modal.style.display = "block";
-// }
-
-// // When the user clicks on <span> (x), close the modal
-// span.onclick = function() {
-//     modal.style.display = "none";
-// }
-
-// // When the user clicks anywhere outside of the modal, close it
-// window.onclick = function(event) {
-//     if (event.target == modal) {
-//         modal.style.display = "none";
-//     }
-// }
-        //append all to page
-        //cardDisplayEl.appendChild(calloutContainer);
-    //}
-//}
+//Testing drop down values - end
 
 var formSubmitHandler = function(event){
     event.preventDefault();
