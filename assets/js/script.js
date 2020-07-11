@@ -1,6 +1,7 @@
 var searchFormEl = document.querySelector("#search-form");
 var searchInputEl = document.querySelector("#searchTxtInput");
 var historyContainerEl = document.querySelector("#searchDatalist");
+var cardDisplayEl = document.getElementById("cards");
 
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
@@ -17,7 +18,6 @@ var createHistoryDropdown = function(){
             historyListItem.text = searchHistoryArr[i];
             historyContainerEl.appendChild(historyListItem);
         }
-
     }
 
 }
