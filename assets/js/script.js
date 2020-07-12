@@ -57,8 +57,9 @@ function getCityCoord(city, state) {
     .then(function(response){
         if (response.ok) {
             response.json().then(function(data) {
-            getSelectedValue(data.coord.lat, data.coord.lon); //removed getHikingInfo call and replaced with getSelectedValue (getHikingInfo is called in getSelectedValue)
-            forecastWeather(data.coord.lat, data.coord.lon, city, data);
+              getSelectedValue(data.coord.lat, data.coord.lon); //removed getHikingInfo call and replaced with getSelectedValue (getHikingInfo is called in getSelectedValue)
+              getHikingInfo(data.coord.lat, data.coord.lon);
+              forecastWeather(data.coord.lat, data.coord.lon, city, data);
             });
         } else {
             noResultsEl.removeAttribute("id", "hidden");
