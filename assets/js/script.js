@@ -57,8 +57,9 @@ function getCityCoord(city, state) {
     .then(function(response){
         if (response.ok) {
             response.json().then(function(data) {
-            getHikingInfo(data.coord.lat, data.coord.lon);
-            forecastWeather(data.coord.lat, data.coord.lon, city, data);
+              getSelectedValue(data.coord.lat, data.coord.lon); //removed getHikingInfo call and replaced with getSelectedValue (getHikingInfo is called in getSelectedValue)
+              getHikingInfo(data.coord.lat, data.coord.lon);
+              forecastWeather(data.coord.lat, data.coord.lon, city, data);
             });
         } else {
             noResultsEl.removeAttribute("id", "hidden");
@@ -79,10 +80,10 @@ function forecastWeather(lat, lon, city, nowWeather) {
     });
 }
 
+//function that gets lat and long ONLY
 function getHikingInfo(lat, lon) {
-  var selectedItem = getSelectedValue();
   // console.log(selectedItem);
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" /*+ "&sort=" + selectedItem*/)
+    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
 
     .then(function(response) {
         if (response.ok) {
@@ -98,6 +99,39 @@ function getHikingInfo(lat, lon) {
         }
     });
 }
+
+//function that gets the sort
+function getHikingSort(result, lat, lon) {
+    // console.log(selectedItem);
+      fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" + "&sort=" + result)
+      .then(function(response) {
+          if (response.ok) {
+              response.json().then(function(data) {
+                  console.log(data.trails)
+                  displayTrails(data, data.trails)
+                  //show load more button
+                removeHiddenEl.removeAttribute("id", "hidden");
+              });
+          } else {
+            noResultsEl.removeAttribute("id", "hidden");
+            return;
+          }
+      });
+  }
+
+  // Function that grabs getHikingInfo and getHikingSort
+function getSelectedValue (lat, lon) {
+    var list = document.getElementById("myList");
+    var result = list.options[list.selectedIndex].value;
+    console.log(result)
+    if(result !== "") {
+      console.log("nul not selected")
+      getHikingSort(result, lat, lon);
+    }
+    else{
+      getHikingInfo(lat, lon) //if sort is not specified, only call getHikingInfo
+    }
+  }
 
 function displayTrails(data, trails) {
 
@@ -459,17 +493,6 @@ function showModal(data){
     var descent = document.getElementById("descent");
     descent.textContent = "Descent: " + data.descent + " ft"; 
 }
-
-// Testing drop down values - start
-
-// Grabbing drop down values
-function getSelectedValue () {
-  var list = document.getElementById("myList");
-  var result = list.options[list.selectedIndex].value;
-  console.log(result)
-}
-
-//Testing drop down values - end
 
 var formSubmitHandler = function(event){
     event.preventDefault();
