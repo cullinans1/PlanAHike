@@ -126,7 +126,7 @@ function getSelectedValue (lat, lon) {
     getHikingSort(result, lat, lon);
   }
   else{
-    getHikingInfo(lat, lon) //add function that calls just lat and lon here
+    getHikingInfo(lat, lon) //add function that calls just lat and lon here!
   }
 }
 
