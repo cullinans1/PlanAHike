@@ -109,12 +109,8 @@ function getHikingInfo(lat, lon) {
 //function that gets the sort
 function getHikingSort(result,lat, lon) {
   // console.log(selectedItem);
-<<<<<<< HEAD
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" + "&sort=" + result)
-=======
     fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" /*+ "&sort=" + selectedItem*/)
 
->>>>>>> eda0e2a53ed02b09784816abbab19dd80ad6e84f
     .then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -140,7 +136,7 @@ function getSelectedValue (lat, lon) {
     getHikingSort(result, lat, lon);
   }
   else{
-    getHikingInfo(lat, lon) //add function that calls just lat and lon here!
+    getHikingInfo(lat, lon) //add function that calls just lat and lon here
   }
 }
 
@@ -326,8 +322,6 @@ function showModal(data){
     descent.textContent = "Descent: " + data.descent + " ft"; 
 }
 
-<<<<<<< HEAD
-=======
 // Testing drop down values - start
 
 // Grabbing drop down values
@@ -338,7 +332,6 @@ function getSelectedValue () {
 }
 
 //Testing drop down values - end
->>>>>>> eda0e2a53ed02b09784816abbab19dd80ad6e84f
 
 var formSubmitHandler = function(event){
     event.preventDefault();
