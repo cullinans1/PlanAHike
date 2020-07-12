@@ -439,6 +439,24 @@ button {
   /* background-repeat: no-repeat; */
 }
 
+#forecast{
+  text-align: center;
+}
+
+.forecastAllContainer {
+  
+}
+
+.forecastDayContainer {
+  margin-bottom: 5px;
+}
+
+.forecastDayItem{
+  background-color: #eeeeee;
+  border: 1px solid rgb(134, 132, 132);
+  border-radius: 5px;
+}
+
 .row {
 max-width: 75rem;
 margin-left: auto;
@@ -1433,9 +1451,9 @@ ul li span {
 .text-right {
   text-align: right; }
 
-  .modal-content {
-    width: 80%; /* Could be more or less, depending on screen size */
-    }
+.modal-content {
+  width: 40%; /* Could be more or less, depending on screen size */
+}
 
 @media screen and (min-width: 40em) {
   .medium-text-right {
@@ -1849,6 +1867,10 @@ select {
   visibility: hidden; }
 
 @media screen and (min-width: 0em) and (max-width: 39.9375em) {
+  .modal-content {
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+
   .hide-for-small-only {
     display: none !important; } }
 
