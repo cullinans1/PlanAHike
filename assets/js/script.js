@@ -71,7 +71,7 @@ function getCityCoord(city, state) {
     .then(function(response){
         if (response.ok) {
             response.json().then(function(data) {
-            getSelectedValue(data.coord.lat, data.coord.lon); //removed getHikingInfo call and replaced with getSelectedValue (getHikingInfo is called in getSelectedValue)
+            getHikingInfo(data.coord.lat, data.coord.lon);
             forecastWeather(data.coord.lat, data.coord.lon);
             });
         } else {
@@ -91,23 +91,8 @@ function forecastWeather(lat, lon) {
     })
 }
 
-//function that gets lat and long ONLY
 function getHikingInfo(lat, lon) {
-  fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef")
-  .then(function(response) {
-      if (response.ok) {
-          response.json().then(function(data) {
-              console.log(data.trails)
-              displayTrails(data, data.trails)
-          });
-      } else {
-          
-      }
-  });
-}
-
-//function that gets the sort
-function getHikingSort(result,lat, lon) {
+  var selectedItem = getSelectedValue();
   // console.log(selectedItem);
     fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" /*+ "&sort=" + selectedItem*/)
 
@@ -125,22 +110,6 @@ function getHikingSort(result,lat, lon) {
         }
     });
 }
-
-// Function that grabs getHikingInfo and getHikingSort
-function getSelectedValue (lat, lon) {
-  var list = document.getElementById("myList");
-  var result = list.options[list.selectedIndex].value;
-  console.log(result)
-  if(result !== "") {
-    console.log("nul not selected")
-    getHikingSort(result, lat, lon);
-  }
-  else{
-    getHikingInfo(lat, lon) //add function that calls just lat and lon here
-  }
-}
-
-
 
 function displayTrails(data, trails) {
 
