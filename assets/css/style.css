@@ -5,6 +5,12 @@
  * 2. Prevent iOS and IE text size adjust after device orientation change,
  *    without disabling user zoom.
  */
+
+:root {
+  --green: rgb(79, 131, 79);
+  --dark-gray: #3b3b3b;
+}
+
 html {
   font-family: sans-serif;
   /* 1 */
@@ -21,10 +27,26 @@ body {
 
 /* Header / footer styling */
 header h1, footer {
-  font-size: 22px;
+  font-size: 35px;
   color: white;
-  background-color: rgb(79, 131, 79);
+  background-color: var(--green);
   padding: 20px;
+}
+
+.searchContainer {
+  float: left;
+  margin: 50px;
+}
+
+.entry h2, .forecastTitle h2, .lead h2 {
+  color:var(--dark-gray);
+  text-align: center;
+}
+
+footer {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
 }
 
 footer h4 {
@@ -451,9 +473,14 @@ button {
   margin-bottom: 5px;
 }
 
+.forecastDayContainer img {
+  max-width: 50px;
+  max-height: 50px;
+}
+
 .forecastDayItem{
-  background-color: #eeeeee;
-  border: 1px solid rgb(134, 132, 132);
+  background-color: #d5f3d8;
+  border: 1px solid var(--dark-gray);
   border-radius: 5px;
 }
 
@@ -1871,6 +1898,10 @@ select {
     width: 80%; /* Could be more or less, depending on screen size */
   }
 
+  .searchContainer{
+    margin: 0;
+  }
+
   .hide-for-small-only {
     display: none !important; } }
 
@@ -2198,8 +2229,8 @@ select {
     padding-left: 3rem; }
   .callout_custom {
     padding: 1rem;
-    border: 1px solid rgba(10, 10, 10, 0.25);
-    border-radius: 0;
+    border: 1px solid var(--green);
+    border-radius: 5px;
     position: relative;
     background-color: white;
   } 

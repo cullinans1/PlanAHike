@@ -10,6 +10,8 @@ var instructionsEl = document.querySelector(".entry");
 var noResultsEl = document.querySelector(".no-results")
 var forecastContainerEl = document.querySelector("#forecast");
 var todayD = moment().format("MM/DD/YYYY");
+var searchResultsTitle = document.querySelector("#searchResultsTitle");
+var trailSummaryUL = document.querySelector("#trailSummary");
 
 
 //create history dropdown elements in hike search field
@@ -52,55 +54,80 @@ var storeSearchHistory = function(searchValue){
     }
 }
 
-function getCityCoord(city, state) {
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
-    .then(function(response){
+var getCityCoord = function(city) {
+    var apiUrl = "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c";
+
+    //console.log(city);
+
+    // make a request to the url
+    fetch(apiUrl).then(function(response) {
+        //request was successful
         if (response.ok) {
-            response.json().then(function(data) {
+          response.json().then(function(data) {
             getHikingInfo(data.coord.lat, data.coord.lon);
             forecastWeather(data.coord.lat, data.coord.lon, city, data);
-            });
-        } else {
+            //only add to history if search returns results
+            storeSearchHistory(city);
+          });
+        }
+        else{
+            //console.log("getCityCoord fail");
             noResultsEl.removeAttribute("id", "hidden");
             instructionsEl.setAttribute("id", "hidden");
             return;
-        }
+        } 
+    })
+    .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `.then()` method
+        //alert("Unable to connect to OpenWeather.");
     });
-}
+};
 
-function forecastWeather(lat, lon, city, nowWeather) {
-    fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
-    .then(function(response) {
+var forecastWeather = function(lat, lon, city, nowWeather) {
+    var apiUrl = "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c";
+
+    // make a request to the url
+    fetch(apiUrl).then(function(response) {
+        //request was successful
         if (response.ok) {
-            response.json().then(function(data) {
-                displayForecast(data,nowWeather);
-            });
-        }
+          response.json().then(function(data) {
+            displayForecast(data,nowWeather);
+          });
+        } 
+    })
+    .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `.then()` method
+        //alert("Unable to connect to OpenWeather.");
     });
-}
+};
 
-function getHikingInfo(lat, lon) {
-  var selectedItem = getSelectedValue();
-  // console.log(selectedItem);
-    fetch("https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" /*+ "&sort=" + selectedItem*/)
+var getHikingInfo = function(lat, lon) {
+    var selectedItem = getSelectedValue();
+    //console.log(selectedItem);
+    var apiUrl = "https://cors-anywhere.herokuapp.com/https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef" /*+ "&sort=" + selectedItem*/;
 
-    .then(function(response) {
+    // make a request to the url
+    fetch(apiUrl).then(function(response) {
+        //request was successful
         if (response.ok) {
-            response.json().then(function(data) {
-                //console.log(data.trails)
-                displayTrails(data, data.trails)
-                //show load more button
-                removeHiddenEl.removeAttribute("id", "hidden");
-            });
-        } else {
+          response.json().then(function(data) {
+            //console.log(data.trails)
+            displayTrails(data, data.trails)
+            //show load more button
+            removeHiddenEl.removeAttribute("id", "hidden");
+          });
+        } else{
             noResultsEl.removeAttribute("id", "hidden");
             return;
         }
+    })
+    .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `.then()` method
+        //alert("Unable to connect to OpenWeather.");
     });
-}
+};
 
 function displayTrails(data, trails) {
-
     //remove instructions
     instructionsEl.setAttribute("id", "hidden");
     //clear out previous data
@@ -172,10 +199,12 @@ function displayTrails(data, trails) {
             }
         }
 
+        searchResultsTitle.innerHTML = "<h2>Hikes<h2>";
+
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
-
     }
+
     //slicing data to display on page
     var firstSliceValue = 0
     var sliceValue = 6
@@ -190,77 +219,79 @@ function displayTrails(data, trails) {
         slicedResults(slicedValue);
         console.log(slicedValue);
     }
+
     loadMoreEl.addEventListener("click", addSliceValue);
+
     function slicedResults (slicedValue) {
-    for(var i = 0; i < slicedValue.length; i++ ) {
-        if(slicedValue[i].imgMedium !== "" ) {
-            var calloutContainer = document.createElement("div");
-            calloutContainer.classList = "column"
-            var callout = document.createElement("div");
-            callout.classList = "callout";
-            var calloutImg = document.createElement("img");
-            calloutImg.setAttribute("src", slicedValue[i].imgMedium);
-            callout.appendChild(calloutImg);
-            calloutContainer.appendChild(callout);
-        } else {
-            var calloutContainer = document.createElement("div");
-            calloutContainer.classList = "column"
-            var callout = document.createElement("div");
-            callout.classList = "callout";
-            var calloutImg = document.createElement("img");
-            calloutImg.setAttribute("src", "assets/images/mountain.png");
-            //Icons made by <a href="https://www.flaticon.com/authors/pongsakornred" title="pongsakornRed">pongsakornRed</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
-            callout.appendChild(calloutImg);
-            calloutContainer.appendChild(callout);
-        };
-        
-        //for title of hike
-        var hikeTitle = document.createElement("p");
-        hikeTitle.classList = "lead";
-        hikeTitle.textContent = slicedValue[i].name;
-        callout.appendChild(hikeTitle);
+        for(var i = 0; i < slicedValue.length; i++ ) {
+            if(slicedValue[i].imgMedium !== "" ) {
+                var calloutContainer = document.createElement("div");
+                calloutContainer.classList = "column"
+                var callout = document.createElement("div");
+                callout.classList = "callout";
+                var calloutImg = document.createElement("img");
+                calloutImg.setAttribute("src", slicedValue[i].imgMedium);
+                callout.appendChild(calloutImg);
+                calloutContainer.appendChild(callout);
+            } else {
+                var calloutContainer = document.createElement("div");
+                calloutContainer.classList = "column"
+                var callout = document.createElement("div");
+                callout.classList = "callout";
+                var calloutImg = document.createElement("img");
+                calloutImg.setAttribute("src", "assets/images/mountain.png");
+                //Icons made by <a href="https://www.flaticon.com/authors/pongsakornred" title="pongsakornRed">pongsakornRed</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+                callout.appendChild(calloutImg);
+                calloutContainer.appendChild(callout);
+            };
+            
+            //for title of hike
+            var hikeTitle = document.createElement("p");
+            hikeTitle.classList = "lead";
+            hikeTitle.textContent = slicedValue[i].name;
+            callout.appendChild(hikeTitle);
 
-        var hikeLocation = document.createElement('p');
-        hikeLocation.classList = "subheader";
-        hikeLocation.style = "color: black;"
-        hikeLocation.textContent = slicedValue[i].location;
-        callout.appendChild(hikeLocation);
+            var hikeLocation = document.createElement('p');
+            hikeLocation.classList = "subheader";
+            hikeLocation.style = "color: black;"
+            hikeLocation.textContent = slicedValue[i].location;
+            callout.appendChild(hikeLocation);
 
-        var hikeSummary = document.createElement('p');
-        hikeSummary.classList = "subheader";
-        hikeSummary.textContent = slicedValue[i].summary;
-        callout.appendChild(hikeSummary);
+            var hikeSummary = document.createElement('p');
+            hikeSummary.classList = "subheader";
+            hikeSummary.textContent = slicedValue[i].summary;
+            callout.appendChild(hikeSummary);
 
-        //button that opens modal
-        var modalButton = document.createElement("button");
-        modalButton.textContent = "See trial details";
-        modalButton.classList.add("modalBtn");
-        modalButton.setAttribute("data-id", i);
-        modalButton.id = "myBtn";
-        callout.appendChild(modalButton);
+            //button that opens modal
+            var modalButton = document.createElement("button");
+            modalButton.textContent = "See trial details";
+            modalButton.classList.add("modalBtn");
+            modalButton.setAttribute("data-id", i);
+            modalButton.id = "myBtn";
+            callout.appendChild(modalButton);
 
 
-        // when the user clicks on the button, open modal
-        modalButton.onclick = function(e) {
-            const thisTrail = slicedValue[parseInt(e.target.dataset.id)]
-            showModal(thisTrail);
-        }
+            // when the user clicks on the button, open modal
+            modalButton.onclick = function(e) {
+                const thisTrail = slicedValue[parseInt(e.target.dataset.id)]
+                showModal(thisTrail);
+            }
 
-        //when the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        //When the user clicks anywhere outside of modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
+            //when the user clicks on <span> (x), close the modal
+            span.onclick = function() {
                 modal.style.display = "none";
             }
-        }
 
-        //append all to page
-        cardDisplayEl.appendChild(calloutContainer);
-    }
+            //When the user clicks anywhere outside of modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            //append all to page
+            cardDisplayEl.appendChild(calloutContainer);
+        }
     }
 }
 
@@ -447,17 +478,33 @@ var displayForecast = function(data,nowWeather) {
 //function that changes the textContent of each data. based on the data.attribute set
 function showModal(data){
     modal.style.display = "block";
-    var difficulty = document.getElementById("difficulty");
-    difficulty.textContent = "Difficulty: " + data.difficulty;
+    trailSummaryUL.innerHTML = "";
+    if (data.validationmsg){
+        modal.querySelector("h3").innerHTML = data.validationmsg;
+        modal.querySelector("ul").innerHTML = "";
+    }else{
 
-    var length = document.getElementById("length");
-    length.textContent = "Length: " + data.length + " mi";
+        modal.querySelector("h3").innerHTML = "Trail Summary";
 
-    var ascent = document.getElementById("ascent");
-    ascent.textContent = "Ascent: " + data.ascent + " ft";
+        var tr_difficulty = document.createElement("li");
+        tr_difficulty.setAttribute("id", "tr_length");
+        tr_difficulty.textContent = "Difficulty: " + data.difficulty;
 
-    var descent = document.getElementById("descent");
-    descent.textContent = "Descent: " + data.descent + " ft"; 
+        var tr_length = document.createElement("li");
+        tr_length.setAttribute("id", "tr_length");
+        tr_length.textContent = "Length: " + data.length + " mi";
+
+        var tr_ascent = document.createElement("li");
+        tr_ascent.setAttribute("id", "tr_ascent");
+        tr_ascent.textContent = "Ascent: " + data.ascent + " ft";
+
+        var tr_descent = document.createElement("li");
+        tr_descent.setAttribute("id", "tr_descent");
+        tr_descent.textContent = "Descent: " + data.descent + " ft"; 
+
+        trailSummaryUL.append(tr_difficulty,tr_length,tr_ascent,tr_descent);
+    }
+    
 }
 
 // Testing drop down values - start
@@ -466,7 +513,7 @@ function showModal(data){
 function getSelectedValue () {
   var list = document.getElementById("myList");
   var result = list.options[list.selectedIndex].value;
-  console.log(result)
+  //console.log(result)
 }
 
 //Testing drop down values - end
@@ -478,19 +525,22 @@ var formSubmitHandler = function(event){
 
     // get value from input element
     var searchValue = searchInputEl.value.trim();
-    
-    //console.log(cityname);
 
     if (searchValue) {
-        storeSearchHistory(searchValue);
         getCityCoord(searchValue);
         searchInputEl.value = "";
         searchInputEl.blur();
     } else {
-        //TODO : VALIDATION MODAL TO GO HERE TO STATE THAT USER NEEDS TO ENTER A VALID DESTINATION (NOT BLANK)
-    }
-}
+        searchInputEl.value = "";
+        searchInputEl.blur();
+        var data = {};
+        data.validationmsg = "Please enter a valid city.";
+        showModal(data);
+        
+        //instructionsEl.innerHTML = "<h2>Please enter a valid destination.</h2>";
 
+    }    
+}
 
 //event listeners
 searchFormEl.addEventListener("submit", formSubmitHandler);
