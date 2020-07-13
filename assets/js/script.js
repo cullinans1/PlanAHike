@@ -10,7 +10,8 @@ var instructionsEl = document.querySelector(".entry");
 var noResultsEl = document.querySelector(".no-results")
 var forecastContainerEl = document.querySelector("#forecast");
 var todayD = moment().format("MM/DD/YYYY");
-
+var searchResultsTitle = document.querySelector("#searchResultsTitle");
+var trailSummaryUL = document.querySelector("#trailSummary");
 
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
@@ -57,9 +58,11 @@ function getCityCoord(city, state) {
     .then(function(response){
         if (response.ok) {
             response.json().then(function(data) {
-              getSelectedValue(data.coord.lat, data.coord.lon); //removed getHikingInfo call and replaced with getSelectedValue (getHikingInfo is called in getSelectedValue)
-              getHikingInfo(data.coord.lat, data.coord.lon);
-              forecastWeather(data.coord.lat, data.coord.lon, city, data);
+                //removed getHikingInfo call and replaced with getSelectedValue (getHikingInfo is called in getSelectedValue)
+                //getHikingInfo(data.coord.lat, data.coord.lon);
+                getSelectedValue(data.coord.lat, data.coord.lon); 
+                forecastWeather(data.coord.lat, data.coord.lon, city, data);
+                storeSearchHistory(city);
             });
         } else {
             noResultsEl.removeAttribute("id", "hidden");
@@ -68,6 +71,36 @@ function getCityCoord(city, state) {
         }
     });
 }
+/*
+var getCityCoord = function(city, state) {
+    var apiUrl = "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c";
+
+    //console.log(city);
+
+    // make a request to the url
+    fetch(apiUrl).then(function(response) {
+        //request was successful
+        if (response.ok) {
+          response.json().then(function(data) {
+            getSelectedValue(data.coord.lat, data.coord.lon); //removed getHikingInfo call and replaced with getSelectedValue (getHikingInfo is called in getSelectedValue)
+            getHikingInfo(data.coord.lat, data.coord.lon);
+            forecastWeather(data.coord.lat, data.coord.lon, city, data);
+            storeSearchHistory(city);
+          });
+        }
+        else{
+            //console.log("getCityCoord fail");
+            noResultsEl.removeAttribute("id", "hidden");
+            instructionsEl.setAttribute("id", "hidden");
+            return;
+        } 
+    })
+    .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `.then()` method
+        //alert("Unable to connect to OpenWeather.");
+    });
+};
+*/
 
 function forecastWeather(lat, lon, city, nowWeather) {
     fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c")
@@ -79,6 +112,26 @@ function forecastWeather(lat, lon, city, nowWeather) {
         }
     });
 }
+
+/*
+var forecastWeather = function(lat, lon, city, nowWeather) {
+    var apiUrl = "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=7b788606d2ca3b8dec8a6e5ab63f1a3c";
+
+    // make a request to the url
+    fetch(apiUrl).then(function(response) {
+        //request was successful
+        if (response.ok) {
+          response.json().then(function(data) {
+            displayForecast(data,nowWeather);
+          });
+        } 
+    })
+    .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `.then()` method
+        //alert("Unable to connect to OpenWeather.");
+    });
+};
+*/
 
 //function that gets lat and long ONLY
 function getHikingInfo(lat, lon) {
@@ -100,6 +153,34 @@ function getHikingInfo(lat, lon) {
     });
 }
 
+/*
+var getHikingInfo = function(lat, lon) {
+    var selectedItem = getSelectedValue();
+    //console.log(selectedItem);
+    var apiUrl = "https://cors-anywhere.herokuapp.com/https://www.hikingproject.com/data/get-trails?lat=" + lat + "&lon=" + lon + "&maxDistance=50&maxResults=30&key=200829481-354572aba0151d42b45ec3c006e7cbef";
+
+    // make a request to the url
+    fetch(apiUrl).then(function(response) {
+        //request was successful
+        if (response.ok) {
+          response.json().then(function(data) {
+            //console.log(data.trails)
+            displayTrails(data, data.trails)
+            //show load more button
+            removeHiddenEl.removeAttribute("id", "hidden");
+          });
+        } else{
+            noResultsEl.removeAttribute("id", "hidden");
+            return;
+        }
+    })
+    .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `.then()` method
+        //alert("Unable to connect to OpenWeather.");
+    });
+};
+*/
+
 //function that gets the sort
 function getHikingSort(result, lat, lon) {
     // console.log(selectedItem);
@@ -119,7 +200,7 @@ function getHikingSort(result, lat, lon) {
       });
   }
 
-  // Function that grabs getHikingInfo and getHikingSort
+// Function that grabs getHikingInfo and getHikingSort
 function getSelectedValue (lat, lon) {
     var list = document.getElementById("myList");
     var result = list.options[list.selectedIndex].value;
@@ -205,6 +286,8 @@ function displayTrails(data, trails) {
                 modal.style.display = "none";
             }
         }
+
+        searchResultsTitle.innerHTML = "<h2>Hikes<h2>";
 
         //append all to page
         cardDisplayEl.appendChild(calloutContainer);
@@ -481,17 +564,33 @@ var displayForecast = function(data,nowWeather) {
 //function that changes the textContent of each data. based on the data.attribute set
 function showModal(data){
     modal.style.display = "block";
-    var difficulty = document.getElementById("difficulty");
-    difficulty.textContent = "Difficulty: " + data.difficulty;
+    trailSummaryUL.innerHTML = "";
+    if (data.validationmsg){
+        modal.querySelector("h3").innerHTML = data.validationmsg;
+        modal.querySelector("ul").innerHTML = "";
+    }else{
 
-    var length = document.getElementById("length");
-    length.textContent = "Length: " + data.length + " mi";
+        modal.querySelector("h3").innerHTML = "Trail Summary";
 
-    var ascent = document.getElementById("ascent");
-    ascent.textContent = "Ascent: " + data.ascent + " ft";
+        var tr_difficulty = document.createElement("li");
+        tr_difficulty.setAttribute("id", "tr_length");
+        tr_difficulty.textContent = "Difficulty: " + data.difficulty;
 
-    var descent = document.getElementById("descent");
-    descent.textContent = "Descent: " + data.descent + " ft"; 
+        var tr_length = document.createElement("li");
+        tr_length.setAttribute("id", "tr_length");
+        tr_length.textContent = "Length: " + data.length + " mi";
+
+        var tr_ascent = document.createElement("li");
+        tr_ascent.setAttribute("id", "tr_ascent");
+        tr_ascent.textContent = "Ascent: " + data.ascent + " ft";
+
+        var tr_descent = document.createElement("li");
+        tr_descent.setAttribute("id", "tr_descent");
+        tr_descent.textContent = "Descent: " + data.descent + " ft"; 
+
+        trailSummaryUL.append(tr_difficulty,tr_length,tr_ascent,tr_descent);
+    }
+    
 }
 
 var formSubmitHandler = function(event){
@@ -501,16 +600,19 @@ var formSubmitHandler = function(event){
 
     // get value from input element
     var searchValue = searchInputEl.value.trim();
-    
-    //console.log(cityname);
 
     if (searchValue) {
-        storeSearchHistory(searchValue);
         getCityCoord(searchValue);
         searchInputEl.value = "";
         searchInputEl.blur();
     } else {
-        //TODO : VALIDATION MODAL TO GO HERE TO STATE THAT USER NEEDS TO ENTER A VALID DESTINATION (NOT BLANK)
+        searchInputEl.value = "";
+        searchInputEl.blur();
+        var data = {};
+        data.validationmsg = "Please enter a valid city.";
+        showModal(data);
+        
+        //instructionsEl.innerHTML = "<h2>Please enter a valid destination.</h2>";
     }
 }
 
