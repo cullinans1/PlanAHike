@@ -21,16 +21,8 @@
             <div class="row">
               <div class="small-12 columns">
                 <label>Locate Your Hike</label>
-                <input type="list" list="searchDatalist" id="searchTxtInput" classs="searchTxtInput" placeholder="Search destinations">
+                <input type="list" list="searchDatalist" id="searchTxtInput" classs="searchTxtInput" placeholder="Search Destinations" pattern="^[^0-9()]+$">
                 <datalist id="searchDatalist"></datalist>
-              </div>
-              <div class="small-12 columns">
-                <label>Select an Option</label>
-                <select id = "myList">
-                  <option value="" disabled selected>Sort by</option>
-                  <option value = "distance">Trail Length</option>
-                  <option value = "quality">Trial Rating</option>
-                </select>
                 <button type="submit" class="button" id="search-button">Search Now!</button>
               </div>
           </div>
@@ -49,12 +41,7 @@
       <div class="modal-content">
         <span class="close">X</span>
         <h3>Trail Summary</h3>
-        <ul id="trailSummary">
-          <li id="difficulty"></li>
-          <li id="length"></li>
-          <li id="ascent"></li>
-          <li id="descent"></li>
-        </ul>
+        <ul id="trailSummary"></ul>
       </div>
     </div>
 
@@ -70,10 +57,10 @@
 
     <div class="row small-up-1 medium-up-2 large-up-3" id="cards"> 
       <div class="entry">
-        <h3>Search a City to see hikes in the area!</h2>
+        <h2>Search a city for hikes in the area!</h2>
       </div>
       <div class="no-results" id="hidden">
-        <h3> No search results were found for your entry, please try again.</h3>
+        <h2> No search results were found for your entry, please try again.</h2>
       </div>
     </div>
 

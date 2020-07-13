@@ -35,7 +35,7 @@ header h1, footer {
 
 .searchContainer {
   float: left;
-  margin: 50px;
+  margin: 100px;
 }
 
 .entry h2, .forecastTitle h2, .lead h2 {
