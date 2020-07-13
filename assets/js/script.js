@@ -269,7 +269,9 @@ function addSliceValue (event) {
     sliceValue += 6;
     firstSliceValue += 6;
     var slicedValue = trailData.slice(firstSliceValue, sliceValue);
-    //console.log(data);
+    if (sliceValue === 30) {
+        removeHiddenEl.setAttribute("id", "hidden")
+    }
     slicedResults(slicedValue);
     //console.log(slicedValue);
 }
