@@ -13,6 +13,10 @@ var forecastContainerEl = document.querySelector("#forecast");
 var todayD = moment().format("MM/DD/YYYY");
 var searchResultsTitle = document.querySelector("#searchResultsTitle");
 var trailSummaryUL = document.querySelector("#trailSummary");
+var trailData;
+var firstSliceValue;
+var sliceValue;
+
 
 //create history dropdown elements in hike search field
 var createHistoryDropdown = function(){
