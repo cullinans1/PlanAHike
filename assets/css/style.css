@@ -1583,13 +1583,18 @@ ul li span {
       padding: 0.85em 1em;
       margin: 0 1rem 1rem 0;
       font-size: 0.9rem;
-      background: #2199e8;
-      color: #fff; }
+      background: blue;
+      color: white; }
       [data-whatinput="mouse"] .button {
         outline: 0; }
-      .button:hover, .button:focus {
-        background: #1583cc;
-        color: #fff; }
+      .button:hover {
+        background: green;
+        color: black; }
+      /* allows button to return to original state even post select   */
+      .button:focus {
+        background: blue;
+        color: white;
+      }  
       .button.tiny {
         font-size: 0.6rem; }
       .button.small {
@@ -1831,7 +1836,7 @@ input[type="list"] {
   font-size: 1rem;
   font-family: inherit;
   line-height: normal;
-  color: #8a8a8a;
+  color: black;
   background-color: #fafafa;
   border-radius: 0;
   -webkit-appearance: none;
@@ -2181,8 +2186,9 @@ select {
 .callout {
   margin: 0 0 1rem 0;
   padding: 1rem;
-  border: 2px solid rgba(10, 10, 10, 0.25);
+  border: 4px solid rgba(10, 10, 10, 0.25);
   border-radius: 5px;
+  border-color: green;
   position: relative;
   background-color: white;
   height: 500px;
