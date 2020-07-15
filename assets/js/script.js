@@ -231,7 +231,7 @@ function displayTrails(data, trails) {
 
         //button that opens modal
         var modalButton = document.createElement("button");
-        modalButton.textContent = "See trial details";
+        modalButton.textContent = "See trail details";
         modalButton.classList.add("modalBtn");
         modalButton.setAttribute("data-id", i);
         modalButton.id = "myBtn";
