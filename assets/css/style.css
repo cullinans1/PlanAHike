@@ -1341,6 +1341,23 @@ ul li span {
   cursor: pointer;
 }
 
+
+/* Custom class to work off of to fix styling issue with Foundation button hover post select */
+
+.customBtn {
+  color: blueviolet;
+  background: chartreuse;
+}
+
+.customBtn:hover {
+  color: red;
+  background: white;
+}
+
+.headerFloat {
+  display: table-cell;
+  vertical-align: ;
+}
 /* Modal Button */
 
 .modalBtn {
@@ -1356,13 +1373,17 @@ ul li span {
   padding: 0.85em 1em;
   margin: 0 1rem 1rem 0;
   font-size: 0.9rem;
-  background: #2199e8;
-  color: #fff; }
+  background: blue;
+  color:white; 
+  }
   [data-whatinput="mouse"] .modalBtn {
     outline: 0; }
-  .modalBtn:hover, .modalBtn:focus {
-    background: #1583cc;
-    color: #fff; }
+  .modalBtn:hover {
+      background: green;
+      color: black; }
+    /* allows button to return to original state even post select   */
+  .modalBtn:focus {
+      outline: none; }
   .modalBtn.tiny {
     font-size: 0.6rem; }
   .modalBtn.small {
@@ -1377,9 +1398,15 @@ ul li span {
   .modalBtn.primary {
     background: #2199e8;
     color: #fff; }
-    .modalBtn.primary:hover, .modalBtnn.primary:focus {
-      background: #147cc0;
-      color: #fff; }
+    .modalBtn.primary:hover {
+    background: #147cc0;
+    color: #fff; 
+    } 
+    .modalBtnn.primary:focus {
+      background: green;
+      color: black; 
+      outline: none;
+      }
   .modalBtn.secondary {
     background: #777;
     color: #fff; }
@@ -1389,15 +1416,19 @@ ul li span {
   .modalBtn.success {
     background: #3adb76;
     color: #fff; }
-    .modalBtn.success:hover, .modalBtn.success:focus {
+    .modalBtn.success:hover {
       background: #22bb5b;
       color: #fff; }
+    .modalBtn.success:focus {
+      outline: none; }
   .modalBtn.alert {
     background: #ec5840;
     color: #fff; }
-    .modalBtn.alert:hover, .modalBtn.alert:focus {
-      background: #da3116;
-      color: #fff; }
+    .modalBtn.alert:hover {
+    background: #da3116;
+    color: #fff; } 
+    .modalBtn.alert:focus {
+    outline: none; }
   .modalBtn.warning {
     background: #ffae00;
     color: #fff; }
@@ -1570,131 +1601,138 @@ ul li span {
   h3 {
     page-break-after: avoid; } }
 
-    .button {
-      display: inline-block;
-      text-align: center;
-      line-height: 1;
-      cursor: pointer;
-      -webkit-appearance: none;
-      transition: all 0.25s ease-out;
-      vertical-align: middle;
-      border: 1px solid transparent;
-      border-radius: 0;
-      padding: 0.85em 1em;
-      margin: 0 1rem 1rem 0;
-      font-size: 0.9rem;
-      background: blue;
-      color: white; }
-      [data-whatinput="mouse"] .button {
-        outline: 0; }
-      .button:hover {
-        background: green;
-        color: black; }
-      /* allows button to return to original state even post select   */
-      .button:focus {
-        background: blue;
-        color: white;
-      }  
-      .button.tiny {
-        font-size: 0.6rem; }
-      .button.small {
-        font-size: 0.75rem; }
-      .button.large {
-        font-size: 1.25rem; }
-      .button.expanded {
-        display: block;
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0; }
-      .button.primary {
-        background: #2199e8;
+  .button {
+    display: inline-block;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    transition: all 0.25s ease-out;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 0.85em 1em;
+    margin: 0 1rem 1rem 0;
+    font-size: 0.9rem;
+    background: blue;
+    color: white;
+    font-weight: bold;
+  }
+    [data-whatinput="mouse"] .button {
+      outline: 0; }
+    .button:hover {
+      background: green;
+      color: black; }
+    /* allows button to return to original state even post select   */
+    .button:focus {
+     outline: none;
+    }  
+    .button.tiny {
+      font-size: 0.6rem; }
+    .button.small {
+      font-size: 0.75rem; }
+    .button.large {
+      font-size: 1.25rem; }
+    .button.expanded {
+      display: block;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0; }
+    .button.primary {
+      background: #2199e8;
+      color: #fff; }
+      .button.primary:hover, .button.primary:focus {
+        background: #147cc0;
         color: #fff; }
-        .button.primary:hover, .button.primary:focus {
-          background: #147cc0;
-          color: #fff; }
-      .button.secondary {
-        background: #777;
+    .button.secondary {
+      background: #777;
+      color: #fff; }
+      .button.secondary:hover, .button.secondary:focus {
+        background: #5f5f5f;
         color: #fff; }
-        .button.secondary:hover, .button.secondary:focus {
-          background: #5f5f5f;
-          color: #fff; }
-      .button.success {
-        background: #3adb76;
+    .button.success {
+      background: #3adb76;
+      color: #fff; }
+      .button.success:hover, .button.success:focus {
+        background: #22bb5b;
         color: #fff; }
-        .button.success:hover, .button.success:focus {
-          background: #22bb5b;
-          color: #fff; }
-      .button.alert {
-        background: #ec5840;
+    .button.alert {
+      background: #ec5840;
+      color: #fff; }
+      .button.alert:hover, .button.alert:focus {
+        background: #da3116;
         color: #fff; }
-        .button.alert:hover, .button.alert:focus {
-          background: #da3116;
-          color: #fff; }
-      .button.warning {
-        background: #ffae00;
+    .button.warning {
+      background: #ffae00;
+      color: #fff; }
+      .button.warning:hover, .button.warning:focus {
+        background: #cc8b00;
         color: #fff; }
-        .button.warning:hover, .button.warning:focus {
-          background: #cc8b00;
-          color: #fff; }
+    .button.hollow {
+      border: 4px solid green;
+      color: white;
+      font-size: large; }
       .button.hollow {
+        background: cadetblue; }
+      .button.hollow:hover {
+        background-color: green;
+        border-color: black;
+        color: black; }
+      .button.hollow:focus {
+        background: cadetblue;
+        border-color: green;
+        color: white; }
+      .button.hollow.primary {
         border: 1px solid #2199e8;
         color: #2199e8; }
-        .button.hollow, .button.hollow:hover, .button.hollow:focus {
-          background: transparent; }
-        .button.hollow:hover, .button.hollow:focus {
+        .button.hollow.primary:hover, .button.hollow.primary:focus {
           border-color: #0c4d78;
           color: #0c4d78; }
-        .button.hollow.primary {
-          border: 1px solid #2199e8;
-          color: #2199e8; }
-          .button.hollow.primary:hover, .button.hollow.primary:focus {
-            border-color: #0c4d78;
-            color: #0c4d78; }
-        .button.hollow.secondary {
-          border: 1px solid #777;
-          color: #777; }
-          .button.hollow.secondary:hover, .button.hollow.secondary:focus {
-            border-color: #3c3c3c;
-            color: #3c3c3c; }
-        .button.hollow.success {
-          border: 1px solid #3adb76;
-          color: #3adb76; }
-          .button.hollow.success:hover, .button.hollow.success:focus {
-            border-color: #157539;
-            color: #157539; }
-        .button.hollow.alert {
-          border: 1px solid #ec5840;
-          color: #ec5840; }
-          .button.hollow.alert:hover, .button.hollow.alert:focus {
-            border-color: #881f0e;
-            color: #881f0e; }
-        .button.hollow.warning {
-          border: 1px solid #ffae00;
-          color: #ffae00; }
-          .button.hollow.warning:hover, .button.hollow.warning:focus {
-            border-color: #805700;
-            color: #805700; }
-      .button.disabled {
-        opacity: 0.25;
-        cursor: not-allowed;
-        pointer-events: none; }
-      .button.dropdown::after {
-        content: '';
-        display: block;
-        width: 0;
-        height: 0;
-        border: inset 0.4em;
-        border-color: #fefefe transparent transparent;
-        border-top-style: solid;
-        position: relative;
-        top: 0.4em;
-        float: right;
-        margin-left: 1em;
-        display: inline-block; }
-      .button.arrow-only::after {
-        margin-left: 0;
-        float: none;
-        top: 0.2em; }
+      .button.hollow.secondary {
+        border: 1px solid #777;
+        color: #777; }
+        .button.hollow.secondary:hover, .button.hollow.secondary:focus {
+          border-color: #3c3c3c;
+          color: #3c3c3c; }
+      .button.hollow.success {
+        border: 1px solid #3adb76;
+        color: #3adb76; }
+        .button.hollow.success:hover, .button.hollow.success:focus {
+          border-color: #157539;
+          color: #157539; }
+      .button.hollow.alert {
+        border: 1px solid #ec5840;
+        color: #ec5840; }
+        .button.hollow.alert:hover, .button.hollow.alert:focus {
+          border-color: #881f0e;
+          color: #881f0e; }
+      .button.hollow.warning {
+        border: 1px solid #ffae00;
+        color: #ffae00; }
+        .button.hollow.warning:hover, .button.hollow.warning:focus {
+          border-color: #805700;
+          color: #805700; }
+    .button.disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      pointer-events: none; }
+    .button.dropdown::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border: inset 0.4em;
+      border-color: #fefefe transparent transparent;
+      border-top-style: solid;
+      position: relative;
+      top: 0.4em;
+      float: right;
+      margin-left: 1em;
+      display: inline-block; }
+    .button.arrow-only::after {
+      margin-left: 0;
+      float: none;
+      top: 0.2em; }
 
 [type="text"], [type="password"], [type="date"], [type="datetime"], [type="datetime-local"], [type="month"], [type="week"], [type="email"], [type="number"], [type="search"], [type="tel"], [type="time"], [type="url"], [type="color"],
 textarea {
