@@ -47,6 +47,7 @@ footer {
   bottom: 0;
   position: fixed;
   width: 100%;
+  height: 100px;
 }
 
 footer h4 {
@@ -1678,10 +1679,6 @@ ul li span {
         background-color: green;
         border-color: black;
         color: black; }
-      .button.hollow:focus {
-        background: cadetblue;
-        border-color: green;
-        color: white; }
       .button.hollow.primary {
         border: 1px solid #2199e8;
         color: #2199e8; }
