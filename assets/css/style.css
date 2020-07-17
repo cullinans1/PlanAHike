@@ -34,6 +34,12 @@ header h1 {
   padding: 15px;
 }
 
+header a {
+  color: white;
+}
+
+
+
 .searchContainer {
   float: left;
   margin: 100px;
@@ -1212,7 +1218,7 @@ a {
   line-height: inherit;
   cursor: pointer; }
   a:hover, a:focus {
-    color: #1585cf; }
+    color: white; }
   a img {
     border: 0; }
 
