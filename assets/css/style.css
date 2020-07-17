@@ -56,7 +56,7 @@ footer {
   left:0;
   width:100%;
   height: auto;
-  position: static;
+  position: sticky;
   background-color: var(--green);
 }
 
